@@ -21,10 +21,7 @@ mybatis:
 server:
   port: 1234
 
-logging:
-  config=src/main/resources/log4j:
-    properties:
-  # TODO 打印sql语句，完善到笔记
+#logging:
   # sql语句出错再开启，不然耗内存
-#  level:
-#    learn.lhb.my.shop.web.admin.dao : debug
+level:
+  learn.lhb.my.shop.web.admin.dao : debug

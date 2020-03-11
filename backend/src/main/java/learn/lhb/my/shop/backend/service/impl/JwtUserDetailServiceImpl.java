@@ -45,6 +45,7 @@ public class JwtUserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("JwtUserDetailServiceImpl = "+username);
+        System.out.println("测试密码加密123456 = "+passwordEncoder.encode("123456"));
         if ("admin".equals(username)) {
             return new JwtUser("admin", passwordEncoder.encode("123456"));
         }

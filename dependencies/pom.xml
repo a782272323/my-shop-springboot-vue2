@@ -21,6 +21,8 @@
 
     <!-- 版本号托管 -->
     <properties>
+        <!-- 跳过测试类 -->
+<!--        <skipTests>true</skipTests>-->
         <!-- Environment Settings 环境配置 -->
         <java.version>1.8</java.version><!-- java版本 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding><!-- 编码 -->
@@ -84,12 +86,12 @@
             </dependency>
             <!-- Spring Boot End -->
 
-            <!-- 单元测试 -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-            </dependency>
+<!--            &lt;!&ndash; 单元测试 &ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>junit</groupId>-->
+<!--                <artifactId>junit</artifactId>-->
+<!--                <version>${junit.version}</version>-->
+<!--            </dependency>-->
 
             <!-- Log Begin -->
             <!-- 日志 log4 -->

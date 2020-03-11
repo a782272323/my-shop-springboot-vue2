@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="learn.lhb.my.shop.backend.mapper.LimitMapper">
+<!--    &lt;!&ndash; 根据角色名，查询角色ID &ndash;&gt;-->
+<!--    <select id="findRoleIdByRoleName" resultType="TbRole">-->
+<!--        SELECT myshop.tb_role.role_id-->
+<!--        FROM myshop.tb_role-->
+<!--        WHERE role_name = #{roleName}-->
+<!--    </select>-->
+
+
+    <!-- 根据用户名查询用户对应的角色名 -->
+    <select id="findRoleNameByUsername" resultType="String" parameterType="String">
+        SELECT myshop.tb_role.role_name
+        FROM myshop.tb_user,myshop.tb_role,myshop.tb_user_role
+        WHERE myshop.tb_user.user_id = myshop.tb_user_role.user_id
+        AND myshop.tb_role.role_id = myshop.tb_user_role.role_id
+        AND username = #{username}
+    </select>
+
+    <!-- 根据角色名查询角色拥有的权限 -->
+    <select id="getUrlsByRoleName" resultType="TbPermission" parameterType="String">
+        SELECT DISTINCT myshop.tb_permission.url
+        FROM myshop.tb_permission
+        WHERE myshop.tb_permission.permission_id IN
+        (
+            SELECT DISTINCT myshop.tb_role_permission.permission_id
+            FROM myshop.tb_role_permission
+            WHERE role_id =
+            (
+                SELECT role_id FROM myshop.tb_role WHERE role_name = #{roleName}
+            )
+        )
+    </select>
+</mapper>

@@ -1,11 +1,15 @@
 package learn.lhb.my.shop.backend.service.impl;
 
+import learn.lhb.my.shop.backend.mapper.LimitMapper;
+import learn.lhb.my.shop.domain.rbac.TbPermission;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +27,9 @@ import java.util.List;
  */
 @Component("accessDecisionService")
 public class AccessDecisionService {
+
+    @Autowired
+    private LimitMapper limitMapper;
 
 
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
@@ -51,16 +58,14 @@ public class AccessDecisionService {
     }
 
     /**
-     * 这里模拟数据库查询用户权限
+     * 从数据库拿权限信息
      */
     private List<String > queryUrlByUserName(String username) {
-        switch (username) {
-            case "admin":
-                return Arrays.asList("/innerMsg", "/secret","/v1//user/info","/v1/user/logout","/v1/user/logout");
-            case "user":
-                return Arrays.asList("/innerMsg");
-            default:
-                return new ArrayList<>();
+        List<TbPermission> tbPermissions = limitMapper.getUrlsByRoleName(limitMapper.findRoleNameByUsername(username));
+        String[] strings = new String[tbPermissions.size()];
+        for (int i = 0; i < tbPermissions.size(); i++) {
+            strings[i] = tbPermissions.get(i).getUrl();
         }
+        return Arrays.asList(strings);
     }
 }
