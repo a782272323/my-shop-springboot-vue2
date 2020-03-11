@@ -38,7 +38,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
          * AntPathRequestMatcher
          * URL拦截
          */
-        super(new AntPathRequestMatcher("/user/login", "POST"));
+        super(new AntPathRequestMatcher("/v1/user/login", "POST"));
     }
 
 

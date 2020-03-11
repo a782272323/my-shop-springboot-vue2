@@ -87,11 +87,11 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     private void additionalAuthenticationChecks(UserDetails userDetails,
                                                 JwtLoginToken authentication) throws AuthenticationException {
         if (authentication.getCredentials() == null) {
-            throw new BadCredentialsException("Bad credentials");
+            throw new BadCredentialsException("密码不能为空");
         }
         String presentedPassword = authentication.getCredentials().toString();
         if (!passwordEncoder.matches(presentedPassword, userDetails.getPassword())) {
-            throw new BadCredentialsException("Bad credentials");
+            throw new BadCredentialsException("密码不正确");
         }
     }
 
@@ -100,15 +100,15 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
      */
     private void defaultCheck(UserDetails user) {
         if (!user.isAccountNonLocked()) {
-            throw new LockedException("User account is locked");
+            throw new LockedException("用户被锁定");
         }
 
         if (!user.isEnabled()) {
-            throw new DisabledException("User is disabled");
+            throw new DisabledException("用户被禁用");
         }
 
         if (!user.isAccountNonExpired()) {
-            throw new AccountExpiredException("User account has expired");
+            throw new AccountExpiredException("用户帐户已过期");
         }
     }
 

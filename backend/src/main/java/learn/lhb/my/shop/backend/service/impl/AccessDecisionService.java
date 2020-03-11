@@ -29,7 +29,7 @@ public class AccessDecisionService {
 
     public boolean hasPermission(HttpServletRequest request, Authentication authentication) {
         // 不被拦截的路径
-        for (String url : Arrays.asList("/v1/login")) {
+        for (String url : Arrays.asList("/user/login")) {
             if (antPathMatcher.match(url, request.getRequestURI())) {
                 return true;
             }
@@ -56,7 +56,7 @@ public class AccessDecisionService {
     private List<String > queryUrlByUserName(String username) {
         switch (username) {
             case "admin":
-                return Arrays.asList("/innerMsg", "/secret","/user/info","/user/logout");
+                return Arrays.asList("/innerMsg", "/secret","/v1//user/info","/v1/user/logout","/v1/user/logout");
             case "user":
                 return Arrays.asList("/innerMsg");
             default:
