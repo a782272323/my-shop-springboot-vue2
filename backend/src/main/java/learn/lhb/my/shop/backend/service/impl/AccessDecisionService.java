@@ -35,8 +35,9 @@ public class AccessDecisionService {
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     public boolean hasPermission(HttpServletRequest request, Authentication authentication) {
+        String[] noUrl = {"/user/login","/table/list"};
         // 不被拦截的路径
-        for (String url : Arrays.asList("/user/login")) {
+        for (String url : Arrays.asList(noUrl)) {
             if (antPathMatcher.match(url, request.getRequestURI())) {
                 return true;
             }

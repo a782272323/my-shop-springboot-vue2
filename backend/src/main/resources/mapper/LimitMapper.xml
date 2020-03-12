@@ -34,4 +34,23 @@
             )
         )
     </select>
+
+    <!-- 根据用户名从数据库获取用户名和密码 -->
+    <select id="findUsernameAndPassword" resultType="TbUser" parameterType="String">
+        SELECT myshop.tb_user.username,myshop.tb_user.password
+        FROM myshop.tb_user
+        WHERE myshop.tb_user.username = #{username}
+    </select>
+
+    <!-- 查询全部用户信息 -->
+    <select id="selectAll" resultType="TbUser">
+        SELECT
+            myshop.tb_user.username,
+            myshop.tb_user.email,
+            myshop.tb_user.phone,
+            myshop.tb_user.created,
+            myshop.tb_user.updated
+        FROM
+            myshop.tb_user
+    </select>
 </mapper>

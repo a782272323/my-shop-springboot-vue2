@@ -1,5 +1,7 @@
 package learn.lhb.my.shop.domain.rbac;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import learn.lhb.my.shop.commons.persistence.BaseDateEntity;
 
 import java.io.Serializable;
@@ -51,6 +53,7 @@ public class TbUser extends BaseDateEntity {
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

@@ -1,5 +1,7 @@
 package learn.lhb.my.shop.commons.persistence;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,10 +20,12 @@ public class BaseDateEntity implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-ss HH-mm-ss")
     private Date created;
     /**
      * 更新时间
      */
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-ss HH-mm-ss")
     private Date updated;
 
     public Date getCreated() {

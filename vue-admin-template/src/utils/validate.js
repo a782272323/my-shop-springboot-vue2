@@ -1,6 +1,3 @@
-/**
- * Created by PanJiaChen on 16/11/18.
- */
 
 /**
  * @param {string} path
@@ -11,10 +8,12 @@ export function isExternal(path) {
 }
 
 /**
+ * 这里不能写死，是传登录界面的用户名给后台的
  * @param {string} str
  * @returns {Boolean}
  */
 export function validUsername(str) {
-  const valid_map = ['admin', 'editor']
-  return valid_map.indexOf(str.trim()) >= 0
+  // const valid_map = ['admin', 'editor']
+  // const valid_map = ['admin', 'editor']
+  return str.indexOf(str.trim()) >= 0
 }

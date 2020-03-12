@@ -23,5 +23,6 @@ server:
 
 #logging:
   # sql语句出错再开启，不然耗内存
-level:
-  learn.lhb.my.shop.web.admin.dao : debug
+logging:
+  level:
+    learn.lhb.my.shop.backend.mapper : debug

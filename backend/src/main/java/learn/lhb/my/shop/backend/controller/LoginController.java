@@ -25,6 +25,11 @@ public class LoginController {
         return BaseResult.ok().put(BaseResult.CodeStatus.OK, "请求成功", "data", loginInfo);
     }
 
+    /**
+     * 退出
+     * @param authentication
+     * @return
+     */
     @PostMapping("logout")
     public BaseResult logout(Authentication authentication) {
         return BaseResult.ok();

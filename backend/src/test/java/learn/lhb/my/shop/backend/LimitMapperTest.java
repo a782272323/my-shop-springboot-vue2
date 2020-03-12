@@ -1,7 +1,9 @@
 package learn.lhb.my.shop.backend;
 
 import learn.lhb.my.shop.backend.mapper.LimitMapper;
+import learn.lhb.my.shop.backend.mapper.TbUserMapper;
 import learn.lhb.my.shop.backend.service.LimitService;
+import learn.lhb.my.shop.commons.dto.BaseResult;
 import learn.lhb.my.shop.domain.rbac.TbPermission;
 import learn.lhb.my.shop.domain.rbac.TbUser;
 import org.junit.Test;
@@ -19,7 +21,7 @@ import java.util.List;
  * @date 2020/3/11.
  * @time 17:44
  */
-@SpringBootTest
+@SpringBootTest("BackendApplication.class")
 @RunWith(SpringRunner.class)
 public class LimitMapperTest {
 
@@ -28,6 +30,9 @@ public class LimitMapperTest {
 
     @Resource
     private LimitService limitService;
+
+    @Autowired
+    private TbUserMapper tbUserMapper;
 
 //    /**
 //     * 根据角色名，查询角色ID
@@ -62,6 +67,31 @@ public class LimitMapperTest {
         }
         System.out.println(Arrays.asList(strings));
 
+    }
+
+    /**
+     * 查看用密码编译器加密的密码
+     */
+    @Test
+    public void findUsernameAndPasswordTest() {
+        TbUser tbUser = limitService.findUsernameAndPassword("admin");
+        System.out.println("用户名为： "+tbUser.getUsername()+"，加密的密码为: "+tbUser.getPassword());
+
+    }
+
+    @Test
+    public void selectAllTest() {
+//        System.out.println(BaseResult.ok().put(20000,"请求成功","data",tbUserMapper.selectAll()));
+        List<TbUser> tbUsers = tbUserMapper.selectAll();
+        for (TbUser tbUser : tbUsers) {
+            System.out.println("----------------");
+            System.out.println(tbUser.getUserId());
+            System.out.println(tbUser.getUsername());
+            System.out.println(tbUser.getEmail());
+            System.out.println(tbUser.getPhone());
+            System.out.println(tbUser.getCreated());
+            System.out.println(tbUser.getUpdated());
+        }
     }
 
 }

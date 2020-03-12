@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="learn.lhb.my.shop.backend.mapper.TbUserMapper">
+    <resultMap id="tbUserMap" type="learn.lhb.my.shop.domain.rbac.TbUser">
+        <id column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="created" property="created"/>
+        <result column="updated" property="updated"/>
+    </resultMap>
+    <!-- 查询全部用户信息 -->
+    <select id="selectAll" resultType="TbUser" resultMap="tbUserMap">
+        SELECT
+            myshop.tb_user.user_id,
+            myshop.tb_user.username,
+            myshop.tb_user.email,
+            myshop.tb_user.phone,
+            myshop.tb_user.created,
+            myshop.tb_user.updated
+--             data_format(myshop.tb_user.created, '%y-%m-%d %H:%i:s'),
+--             data_format(myshop.tb_user.updated, '%y-%m-%d %H:%i:s')
+        FROM
+            myshop.tb_user
+    </select>
+</mapper>

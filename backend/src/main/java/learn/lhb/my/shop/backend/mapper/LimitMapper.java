@@ -39,6 +39,12 @@ public interface LimitMapper {
      * @param roleName
      * @return
      */
-//    List<Map<String,Object>> getUrlsByRoleName(String roleName);
     List<TbPermission> getUrlsByRoleName(String roleName);
+
+    /**
+     * 根据用户名从数据库获取用户名和密码
+     * @param username
+     * @return
+     */
+    TbUser findUsernameAndPassword(String username);
 }

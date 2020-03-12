@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @time 00:23
  */
 @SpringBootApplication
-@MapperScan(basePackages = "learn.lhb.my.shop.backend")
+@MapperScan(basePackages = "learn.lhb.my.shop.backend.mapper")
 public class BackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);

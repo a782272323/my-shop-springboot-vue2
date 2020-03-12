@@ -7,28 +7,28 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 /**
- * Note: sub-menu only appear when route children.length >= 1
+ * 注意:子菜单只在路由子菜单时出现。长度> = 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
  *
- * hidden: true                   if set true, item will not show in the sidebar(default is false)
- * alwaysShow: true               if set true, will always show the root menu
- *                                if not set alwaysShow, when item has more than one children route,
- *                                it will becomes nested mode, otherwise not show the root menu
- * redirect: noRedirect           if set noRedirect will no redirect in the breadcrumb
- * name:'router-name'             the name is used by <keep-alive> (must set!!!)
+ * hidden: true                   如果设置为真，项目将不会显示在侧栏(默认为假)
+ * alwaysShow: true               如果设置为真，将始终显示根菜单
+ *                                如果不设置alwaysShow，当项目有多个子路由时，
+ *                                它将成为嵌套模式，否则不显示根菜单
+ * redirect: noRedirect           如果设置noRedirect将不会在面包屑中重定向
+ * name:'router-name'             the name is used by <keep-alive> (必须设置!)
  * meta : {
-    roles: ['admin','editor']    control the page roles (you can set multiple roles)
-    title: 'title'               the name show in sidebar and breadcrumb (recommend set)
-    icon: 'svg-name'             the icon show in the sidebar
-    breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
-    activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
+    roles: ['admin','editor']    控制页面角色(您可以设置多个角色)
+    title: 'title'               名称显示在侧栏和面包屑(推荐设置)
+    icon: 'svg-name'             图标显示在侧栏中
+    breadcrumb: false            如果设置为false，则该项将隐藏在breadcrumb中(默认为true)
+    activeMenu: '/example/list'  如果设置路径，侧栏将突出显示您设置的路径
   }
  */
 
 /**
- * constantRoutes
- * a base page that does not have permission requirements
- * all roles can be accessed
+ * constantRoutes 固定的路由
+ * 没有权限要求的基本页
+ * 可以访问所有角色
  */
 export const constantRoutes = [
   {
@@ -51,8 +51,29 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard' }
     }]
+  },
+  {
+    path: '/account',
+    component: Layout,
+    redirect: '/account/info',
+    name: 'Account',
+    meta: { title: '用户管理', icon: 'user' },
+    children: [
+      {
+        path: 'info',
+        name: 'AccountInfo',
+        component: () => import('@/views/account/info'),
+        meta: { title: '用户信息', icon: 'list1' }
+      },
+      {
+        path: 'editor',
+        name: 'AccountEditor',
+        component: () => import('@/views/tree/index'),
+        meta: { title: '编辑用户', icon: 'edit1' }
+      }
+    ]
   },
 
   {
@@ -60,13 +81,13 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
+    meta: { title: '例子', icon: 'example' },
     children: [
       {
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        meta: { title: '表格', icon: 'table' }
       },
       {
         path: 'tree',
@@ -85,7 +106,7 @@ export const constantRoutes = [
         path: 'index',
         name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        meta: { title: '表单', icon: 'form' }
       }
     ]
   },
@@ -96,7 +117,7 @@ export const constantRoutes = [
     redirect: '/nested/menu1',
     name: 'Nested',
     meta: {
-      title: 'Nested',
+      title: '嵌套',
       icon: 'nested'
     },
     children: [
@@ -154,17 +175,17 @@ export const constantRoutes = [
     children: [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        meta: { title: '官网外部链接', icon: 'link' }
       }
     ]
   },
 
-  // 404 page must be placed at the end !!!
+  // 404 页面必须放在最后 !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  // mode: 'history', // 需要服务支持
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })

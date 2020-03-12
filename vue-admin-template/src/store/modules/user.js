@@ -43,14 +43,14 @@ const actions = {
     })
   },
 
-  // get user info
+  // 获取用户信息
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         const { data } = response
 
         if (!data) {
-          reject('Verification failed, please Login again.')
+          reject('验证失败，请重新登录。')
         }
 
         const { name, avatar } = data
@@ -64,11 +64,11 @@ const actions = {
     })
   },
 
-  // user logout
+  // 用户注销
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
-        removeToken() // must remove  token  first
+        removeToken() // 必须先删除令牌
         resetRouter()
         commit('RESET_STATE')
         resolve()
@@ -78,7 +78,7 @@ const actions = {
     })
   },
 
-  // remove token
+  // 删除令牌 token
   resetToken({ commit }) {
     return new Promise(resolve => {
       removeToken() // must remove  token  first

@@ -3,6 +3,7 @@ package learn.lhb.my.shop.backend.service.impl;
 import learn.lhb.my.shop.backend.mapper.LimitMapper;
 import learn.lhb.my.shop.backend.service.LimitService;
 import learn.lhb.my.shop.domain.rbac.TbPermission;
+import learn.lhb.my.shop.domain.rbac.TbUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,16 @@ public class LimitServiceImpl implements LimitService {
 
     @Autowired
     private LimitMapper limitMapper;
+
+    /**
+     * 根据用户名从数据库获取用户名和密码
+     * @param username
+     * @return
+     */
+    @Override
+    public TbUser findUsernameAndPassword(String username) {
+        return limitMapper.findUsernameAndPassword(username);
+    }
 
 //    /**
 //     * 根据用户名获取用户拥有的权限
