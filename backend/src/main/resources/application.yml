@@ -21,8 +21,7 @@ mybatis:
 server:
   port: 1234
 
-#logging:
   # sql语句出错再开启，不然耗内存
-logging:
-  level:
-    learn.lhb.my.shop.backend.mapper : debug
+#logging:
+#  level:
+#    learn.lhb.my.shop.backend.mapper : debug

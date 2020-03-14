@@ -8,23 +8,27 @@ import learn.lhb.my.shop.backend.security.provider.JwtAuthenticationProvider;
 import learn.lhb.my.shop.backend.service.impl.JwtUserDetailServiceImpl;
 import learn.lhb.my.shop.commons.dto.BaseResult;
 import learn.lhb.my.shop.commons.utils.MapperUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 /**
- * @author niXueChao
- * @date 2019/4/2 22:58.
+ *
  */
 @Configuration
 public class ApplicationConfigurerAdapter extends WebSecurityConfigurerAdapter {
+
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationConfigurerAdapter.class);
 
 
     @Autowired
@@ -60,6 +64,7 @@ public class ApplicationConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 //这也是JwtHeadFilter发现请求头中没有jwtToken不作处理而直接进入下一个过滤器的原因
             .cors().and()
             .exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
+            logger.error("请您登录！！");
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(MapperUtils.mapToJson(BaseResult.error("请您登录")));
         })
@@ -67,8 +72,9 @@ public class ApplicationConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 //拒绝访问处理,当已登录,但权限不足时调用
                 //抛出AccessDeniedException异常时且当不是匿名用户时调用
                 .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    logger.error("权限不足！！");
                     response.setContentType("application/json;charset=UTF-8");
-                    response.getWriter().write(MapperUtils.mapToJson(BaseResult.error("权限不足")));
+                    response.getWriter().write(MapperUtils.mapToJson(BaseResult.error("权限不足！！")));
                 })
                 .and()
                 .authorizeRequests()

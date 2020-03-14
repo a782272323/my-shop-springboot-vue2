@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-
+    private static final Logger logger = LoggerFactory.getLogger(JwtLoginFilter.class);
 
     private JwtUserDetailServiceImpl jwtUserDetailService;
 
@@ -68,7 +68,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
             return authenticatedToken;
         } catch (Exception e) {
             e.printStackTrace();
-
+            logger.error("用户名或者密码错误");
             throw new BadCredentialsException(MapperUtils.mapToJson(BaseResult.error("用户名或者密码错误")));
         }
 

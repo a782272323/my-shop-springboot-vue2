@@ -13,6 +13,15 @@ public class LoginInfo implements Serializable {
 
     private String name;
     private String avatar;
+    private String roles;
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
 
     public String getName() {
         return name;
