@@ -20,12 +20,12 @@ public class BaseDateEntity implements Serializable {
     /**
      * 创建时间
      */
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-ss HH-mm-ss")
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-ss HH:mm:ss")
     private Date created;
     /**
      * 更新时间
      */
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-ss HH-mm-ss")
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-ss HH:mm:ss")
     private Date updated;
 
     public Date getCreated() {

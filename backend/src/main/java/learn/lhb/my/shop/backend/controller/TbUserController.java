@@ -40,9 +40,9 @@ public class TbUserController {
     public BaseResult selectAll() {
         System.out.println("查询用户信息");
         logger.debug("查询用户信息");
-//        Map<Object, List<TbUser>> map = new HashMap<>();
-//        map.put("getAccountList", tbUserMapper.selectAll());
-        return BaseResult.ok().put(20000, "请求成功", "getAccountList", tbUserMapper.selectAll());
+        Map<Object, List<TbUser>> map = new HashMap<>();
+        map.put("getAccountList", tbUserMapper.selectAll());
+        return BaseResult.ok().put(20000, "请求成功", "data", map);
     }
 
 }
