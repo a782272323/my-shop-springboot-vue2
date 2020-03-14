@@ -1,9 +1,11 @@
 package learn.lhb.my.shop.backend;
 
+import com.github.pagehelper.PageHelper;
 import learn.lhb.my.shop.backend.mapper.LimitMapper;
 import learn.lhb.my.shop.backend.mapper.TbUserMapper;
 import learn.lhb.my.shop.backend.service.LimitService;
 import learn.lhb.my.shop.commons.dto.BaseResult;
+import learn.lhb.my.shop.commons.dto.PageParams;
 import learn.lhb.my.shop.domain.rbac.TbPermission;
 import learn.lhb.my.shop.domain.rbac.TbUser;
 import org.junit.Test;
@@ -15,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 梁鸿斌
@@ -82,16 +85,15 @@ public class LimitMapperTest {
     @Test
     public void selectAllTest() {
 //        System.out.println(BaseResult.ok().put(20000,"请求成功","data",tbUserMapper.selectAll()));
-        List<TbUser> tbUsers = tbUserMapper.selectAll();
-        for (TbUser tbUser : tbUsers) {
-            System.out.println("----------------");
-            System.out.println(tbUser.getUserId());
-            System.out.println(tbUser.getUsername());
-            System.out.println(tbUser.getEmail());
-            System.out.println(tbUser.getPhone());
-            System.out.println(tbUser.getCreated());
-            System.out.println(tbUser.getUpdated());
-        }
+        PageParams pageParams = new PageParams();
+        pageParams.setPageIndex(1);
+        pageParams.setPageSize(2);
+        pageParams.setSortName("user_id");
+        pageParams.setSortType("DESC");
+        PageHelper.startPage(1, 2);
+        List<Map<String,TbUser>> tbUsers = tbUserMapper.selectAll(pageParams);
+
+        System.out.println(tbUsers);
     }
 
 }

@@ -43,7 +43,7 @@
     </select>
 
     <!-- 查询全部用户信息 -->
-    <select id="selectAll" resultType="TbUser">
+    <select id="selectAll" resultType="java.util.HashMap" parameterType="PageParams">
         SELECT
             myshop.tb_user.username,
             myshop.tb_user.email,

@@ -16,12 +16,12 @@ spring:
 #mybatis
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: learn.lhb.my.shop.domain
+  type-aliases-package: learn.lhb.my.shop.domain,learn.lhb.my.shop.commons.dto
 
 server:
   port: 1234
 
   # sql语句出错再开启，不然耗内存
-#logging:
-#  level:
-#    learn.lhb.my.shop.backend.mapper : debug
+logging:
+  level:
+    learn.lhb.my.shop.backend.mapper : debug

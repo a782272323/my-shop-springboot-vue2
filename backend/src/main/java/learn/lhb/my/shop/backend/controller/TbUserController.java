@@ -1,13 +1,18 @@
 package learn.lhb.my.shop.backend.controller;
 
+import com.github.pagehelper.PageHelper;
 import learn.lhb.my.shop.backend.mapper.TbUserMapper;
 import learn.lhb.my.shop.commons.dto.BaseResult;
+import learn.lhb.my.shop.commons.dto.PageParams;
 import learn.lhb.my.shop.domain.rbac.TbUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -37,12 +42,31 @@ public class TbUserController {
      * @return
      */
     @GetMapping("list")
-    public BaseResult selectAll() {
+    public BaseResult selectAll(Authentication authentication,PageParams pageParams) {
         System.out.println("查询用户信息");
-        logger.debug("查询用户信息");
-        Map<Object, List<TbUser>> map = new HashMap<>();
-        map.put("getAccountList", tbUserMapper.selectAll());
+        System.out.println("pageIndex = "+pageParams.getPageIndex());
+        System.out.println("pageSize = "+pageParams.getPageSize());
+        System.out.println("sortName = "+pageParams.getSortName());
+        System.out.println("sortType = "+pageParams.getSortType());
+        PageHelper.startPage(pageParams.getPageIndex(), pageParams.getPageSize());
+        Map<String,Object> map = new HashMap<>();
+        map.put("getAccountList", tbUserMapper.selectAll(pageParams));
+        map.put("total", tbUserMapper.getTotalAll());
         return BaseResult.ok().put(20000, "请求成功", "data", map);
+    }
+
+    @GetMapping("lists")
+    public BaseResult queryAll(Authentication authentication, PageParams pageParams, TbUser tbUser) {
+        System.out.println("模糊查询");
+        System.out.println("pageIndex = "+pageParams.getPageIndex());
+        System.out.println("pageSize = "+pageParams.getPageSize());
+        System.out.println("sortName = "+pageParams.getSortName());
+        System.out.println("sortType = "+pageParams.getSortType());
+        PageHelper.startPage(pageParams.getPageIndex(), pageParams.getPageSize());
+        Map<String, Object> map = new HashMap<>();
+        map.put("getAccountList", tbUserMapper.queryAll(pageParams, tbUser));
+        map.put("total", tbUserMapper.queryTotalAll(tbUser));
+        return BaseResult.ok().put(BaseResult.CodeStatus.OK,"请求成功","data",map);
     }
 
 }

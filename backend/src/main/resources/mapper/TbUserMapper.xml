@@ -12,18 +12,62 @@
         <result column="created" property="created"/>
         <result column="updated" property="updated"/>
     </resultMap>
+    <!-- 可重复引用的 -->
+    <sql id="tbUserColumns">
+        myshop.tb_user.user_id,
+        myshop.tb_user.username,
+        myshop.tb_user.email,
+        myshop.tb_user.phone,
+        myshop.tb_user.created,
+        myshop.tb_user.updated
+    </sql>
     <!-- 查询全部用户信息 -->
-    <select id="selectAll" resultType="TbUser" resultMap="tbUserMap">
+    <select id="selectAll" resultType="java.util.HashMap">
         SELECT
-            myshop.tb_user.user_id,
-            myshop.tb_user.username,
-            myshop.tb_user.email,
-            myshop.tb_user.phone,
-            myshop.tb_user.created,
-            myshop.tb_user.updated
---             data_format(myshop.tb_user.created, '%y-%m-%d %H:%i:s'),
---             data_format(myshop.tb_user.updated, '%y-%m-%d %H:%i:s')
+            <include refid="tbUserColumns" />
         FROM
             myshop.tb_user
+        ORDER BY ${sortName} ${sortType}
+    </select>
+
+    <!-- 查询全部用户信息的返回结果数量 -->
+    <select id="getTotalAll" resultType="Integer">
+        SELECT COUNT(*) FROM myshop.tb_user
+    </select>
+
+    <!-- 根据条件查询全部用户信息 -->
+    <select id="queryAll" resultType="java.util.HashMap">
+        SELECT
+            <include refid="tbUserColumns" />
+        FROM
+            myshop.tb_user
+        <where>
+            <if test="tbUser.username != null and tbUser.username != ''">
+                AND username LIKE CONCAT ('%',#{tbUser.username},'%')
+            </if>
+            <if test="tbUser.email != null and tbUser.email != ''">
+                AND email LIKE CONCAT ('%',#{tbUser.email},'%')
+            </if>
+            <if test="tbUser.phone != null and tbUser.phone != ''">
+                AND phone LIKE CONCAT ('%',#{tbUser.phone},'%')
+            </if>
+        </where>
+        ORDER BY ${pageParams.sortName} ${pageParams.sortType}
+    </select>
+
+    <!-- 根据条件查询全部用户信息的返回结果数量 -->
+    <select id="queryTotalAll" resultType="Integer">
+        SELECT COUNT(*) FROM myshop.tb_user
+        <where>
+            <if test="tbUser.username != null and tbUser.username != ''">
+                AND username LIKE CONCAT ('%',#{tbUser.username},'%')
+            </if>
+            <if test="tbUser.email != null and tbUser.email != ''">
+                AND email LIKE CONCAT ('%',#{tbUser.email},'%')
+            </if>
+            <if test="tbUser.phone != null and tbUser.phone != ''">
+                AND phone LIKE CONCAT ('%',#{tbUser.phone},'%')
+            </if>
+        </where>
     </select>
 </mapper>

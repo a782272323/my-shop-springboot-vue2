@@ -15,17 +15,17 @@ import java.util.Date;
  */
 public class BaseDateEntity implements Serializable {
 
-    private static final long serialVersionUID = -52L;
 
+    private static final long serialVersionUID = 5435004826735918080L;
     /**
      * 创建时间
      */
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-ss HH:mm:ss")
+//    @JsonFormat(pattern = "yyyy-MM-ss HH:mm:ss")
     private Date created;
     /**
      * 更新时间
      */
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-ss HH:mm:ss")
+//    @JsonFormat(pattern = "yyyy-MM-ss HH:mm:ss")
     private Date updated;
 
     public Date getCreated() {

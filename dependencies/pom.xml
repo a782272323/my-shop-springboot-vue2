@@ -45,6 +45,7 @@
         <spring-boot-starter-security.version>2.1.8.RELEASE</spring-boot-starter-security.version>
         <spring-security-jwt.version>1.0.10.RELEASE</spring-security-jwt.version>
         <jjwt.version>0.9.0</jjwt.version>
+        <pageHelper.version>1.2.3</pageHelper.version>
 
     </properties>
 
@@ -76,6 +77,12 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jdbc</artifactId>
                 <version>${spring-jdbc.version}</version>
+            </dependency>
+            <!-- 分页插件 -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pageHelper.version}</version>
             </dependency>
             <!-- 单元测试 -->
             <dependency>
