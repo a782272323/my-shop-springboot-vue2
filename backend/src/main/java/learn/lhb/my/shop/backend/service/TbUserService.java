@@ -23,7 +23,8 @@ public interface TbUserService {
     /**
      * 修改用户
      * @param tbUser
+     * @param user_id
      * @return
      */
-    BaseResult update(TbUser tbUser);
+    BaseResult update(TbUser tbUser,String user_id);
 }

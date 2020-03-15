@@ -8,11 +8,14 @@ import learn.lhb.my.shop.commons.dto.PageParams;
 import learn.lhb.my.shop.domain.rbac.TbUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -90,7 +93,7 @@ public class TbUserController {
      * @return
      */
     @GetMapping("list/{user_id}")
-    public BaseResult selectOne(Authentication authentication, @PathVariable String user_id) {
+    public BaseResult selectOne(Authentication authentication, @PathVariable(value = "user_id") String user_id) {
         System.out.println("根据ID查询单个用户信息");
         System.out.println("user_id = "+user_id);
         Map<String, Object> map = new HashMap<>();
@@ -110,6 +113,16 @@ public class TbUserController {
         return tbUserService.insert(tbUser);
     }
 
-
+    /**
+     * 修改用户
+     * @param autowired
+     * @param tbUser
+     * @return
+     */
+    @PutMapping("list")
+    public BaseResult update(Autowired autowired,String user_id,@RequestBody TbUser tbUser) {
+        System.out.println("修改用户");
+        return tbUserService.update(tbUser,user_id);
+    }
 
 }

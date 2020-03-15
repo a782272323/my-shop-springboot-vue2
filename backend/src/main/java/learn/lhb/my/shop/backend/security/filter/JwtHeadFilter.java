@@ -8,6 +8,7 @@ import learn.lhb.my.shop.commons.dto.BaseResult;
 import learn.lhb.my.shop.commons.utils.MapperUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -22,9 +23,15 @@ import java.io.IOException;
  * @author niXueChao
  * @date 2019/4/3 15:03.
  */
+@Configuration
 public class JwtHeadFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtHeadFilter.class);
+
+
+    public JwtHeadFilter() {
+
+    }
 
 
     @Override
@@ -58,6 +65,7 @@ public class JwtHeadFilter extends OncePerRequestFilter {
         JwtLoginToken jwtLoginToken = new JwtLoginToken(user, "", user.getAuthorities());
         jwtLoginToken.setDetails(new WebAuthenticationDetails(request));
         SecurityContextHolder.getContext().setAuthentication(jwtLoginToken);
+
         filterChain.doFilter(request,response);
 
     }

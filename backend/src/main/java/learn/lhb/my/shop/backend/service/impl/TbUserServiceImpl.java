@@ -3,12 +3,11 @@ package learn.lhb.my.shop.backend.service.impl;
 import learn.lhb.my.shop.backend.mapper.TbUserMapper;
 import learn.lhb.my.shop.backend.service.TbUserService;
 import learn.lhb.my.shop.commons.dto.BaseResult;
-import learn.lhb.my.shop.commons.utils.CheckUserInfoUtils;
 import learn.lhb.my.shop.commons.utils.IsRegexpUtils;
 import learn.lhb.my.shop.domain.rbac.TbUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,7 +22,7 @@ import java.util.Date;
 public class TbUserServiceImpl implements TbUserService {
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Resource
     private TbUserMapper tbUserMapper;
@@ -72,17 +71,16 @@ public class TbUserServiceImpl implements TbUserService {
      * @return
      */
     @Override
-    public BaseResult update(TbUser tbUser) {
+    public BaseResult update(TbUser tbUser,String user_id) {
         BaseResult baseResult = check2(tbUser);
         // 用户信息有效性验证
         if (baseResult.getCode() == BaseResult.CodeStatus.OK) {
-            // 判断修改的用户名是不是相同的
-            if (tbUser.getNewUsername().trim().equals(tbUser.getUsername()) || tbUser.getNewUsername().equals("")) {
-                // 判断
-            }
-
+            // 初始化更新时间
+            tbUser.setUpdated(new Date());
+            tbUserMapper.update(tbUser,user_id);
+            baseResult = BaseResult.ok("修改用户成功");
         }
-        return null;
+        return baseResult;
     }
 
     /**

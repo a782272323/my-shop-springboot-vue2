@@ -102,4 +102,19 @@
         VALUES
             (#{tbUser.username},#{tbUser.password},#{tbUser.phone},#{tbUser.email},#{tbUser.created},#{tbUser.updated})
     </insert>
+
+    <!-- 修改用户 -->
+    <update id="update">
+        UPDATE myshop.tb_user SET
+            username = #{tbUser.username},
+            email = #{tbUser.email},
+            phone = #{tbUser.phone},
+            updated = #{tbUser.updated}
+        WHERE myshop.tb_user.user_id = ${user_id}
+    </update>
+
+    <!-- 删除用户 -->
+    <delete id="delete">
+        DELETE FROM myshop.tb_user WHERE tb_user.user_id = ${user_id}
+    </delete>
 </mapper>

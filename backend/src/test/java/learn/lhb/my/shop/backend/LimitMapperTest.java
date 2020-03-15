@@ -35,7 +35,7 @@ public class LimitMapperTest {
     @Resource
     private LimitService limitService;
 
-    @Autowired
+    @Resource
     private TbUserMapper tbUserMapper;
 
 //    /**
@@ -123,6 +123,18 @@ public class LimitMapperTest {
         baseResult.setMessage("成功了");
         System.out.println(baseResult.getCode());
         System.out.println(baseResult.getMessage());
+    }
+
+    @Test
+    public void updateTest() {
+        TbUser tbUser = new TbUser();
+//        tbUser.setUserId((long) 100);
+        tbUser.setUsername("utest3");
+        tbUser.setPhone("13724725666");
+        tbUser.setEmail("utest@test3.com");
+        tbUser.setUpdated(new Date());
+
+        tbUserMapper.update(tbUser, "100");
     }
 
 }

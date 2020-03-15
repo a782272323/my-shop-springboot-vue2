@@ -36,16 +36,6 @@ public class TbUser extends BaseDateEntity {
      * 邮箱
      */
     private String email;
-    private String newUsername;
-
-    public String getNewUsername() {
-
-        return newUsername;
-    }
-
-    public void setNewUsername(String newUsername) {
-        this.newUsername = newUsername;
-    }
 
     public Long getUserId() {
         return userId;

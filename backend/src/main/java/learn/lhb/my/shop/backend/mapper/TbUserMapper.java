@@ -64,9 +64,17 @@ public interface TbUserMapper {
     /**
      * 修改用户
      * @param tbUser
+     * @param user_id
      * @return
      */
-    int update(@Param("tbUser") TbUser tbUser);
+    int update(@Param("tbUser") TbUser tbUser,String user_id);
+
+    /**
+     * 删除用户
+     * @param user_id
+     * @return
+     */
+    int delete(String user_id);
 
     /**
      * 校验用户名是否重复
