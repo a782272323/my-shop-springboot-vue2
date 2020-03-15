@@ -70,4 +70,36 @@
             </if>
         </where>
     </select>
+
+    <!-- 根据ID查询单个用户信息 -->
+    <select id="selectOne" resultType="TbUser" resultMap="tbUserMap">
+        SELECT
+            <include refid="tbUserColumns"/>
+        FROM tb_user
+        WHERE
+           user_id = ${userId}
+    </select>
+
+    <!-- 校验用户名是否重复 -->
+    <select id="findUsername" resultType="TbUser" parameterType="String">
+        SELECT myshop.tb_user.username FROM myshop.tb_user WHERE username = #{username}
+    </select>
+
+    <!-- 校验邮箱是否重复 -->
+    <select id="findEmail" resultType="TbUser" parameterType="String">
+        SELECT myshop.tb_user.email FROM myshop.tb_user WHERE email = #{username}
+    </select>
+
+    <!-- 校验电话号码是否重复 -->
+    <select id="findPhone" resultType="TbUser" parameterType="String">
+        SELECT myshop.tb_user.phone FROM myshop.tb_user WHERE phone = #{username}
+    </select>
+
+    <!-- 添加用户 -->
+    <insert id="insert">
+        INSERT INTO myshop.tb_user
+            (username, password, phone, email, created, updated)
+        VALUES
+            (#{tbUser.username},#{tbUser.password},#{tbUser.phone},#{tbUser.email},#{tbUser.created},#{tbUser.updated})
+    </insert>
 </mapper>

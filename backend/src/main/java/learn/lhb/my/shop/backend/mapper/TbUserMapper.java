@@ -45,4 +45,49 @@ public interface TbUserMapper {
      * @return
      */
     Integer queryTotalAll(@Param("tbUser") TbUser tbUser);
+
+    /**
+     * 根据ID查询单个用户信息
+     *
+     * @param userId
+     * @return
+     */
+    TbUser selectOne(String userId);
+
+    /**
+     * 添加用户
+     * @param tbUser
+     * @return
+     */
+    int insert(@Param("tbUser")TbUser tbUser);
+
+    /**
+     * 修改用户
+     * @param tbUser
+     * @return
+     */
+    int update(@Param("tbUser") TbUser tbUser);
+
+    /**
+     * 校验用户名是否重复
+     * @param username
+     * @return
+     */
+    TbUser findUsername(String username);
+
+    /**
+     * 校验邮箱是否重复
+     * @param email
+     * @return
+     */
+    TbUser findEmail(String email);
+
+    /**
+     * 校验电话号码是否重复
+     * @param phone
+     * @return
+     */
+    TbUser findPhone(String phone);
+
+
 }

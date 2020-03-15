@@ -5,7 +5,7 @@ export function accountList(pageIndex, pageSize, sortType, sortName) {
   return request({
     url: '/account/list',
     method: 'get',
-    params: {pageIndex: pageIndex, pageSize: pageSize, sortName: sortName, sortType: sortType}
+    params: { pageIndex: pageIndex, pageSize: pageSize, sortName: sortName, sortType: sortType }
   })
 }
 
@@ -14,8 +14,17 @@ export function sortAccountList(pageIndex, pageSize, sortType, sortName, sortAcc
   return request({
     url: '/account/lists',
     method: 'get',
-    params: {pageIndex: pageIndex, pageSize: pageSize, sortName: sortName, sortType: sortType,
-             username: sortAccount.username, email: sortAccount.email, phone: sortAccount.phone}
+    params: { pageIndex: pageIndex, pageSize: pageSize, sortName: sortName, sortType: sortType,
+             username: sortAccount.username, email: sortAccount.email, phone: sortAccount.phone }
   })
-
 }
+
+// 添加用户
+export function postAccount(data) {
+  return request({
+    url: '/account/list',
+    method: 'post',
+    data
+  })
+}
+

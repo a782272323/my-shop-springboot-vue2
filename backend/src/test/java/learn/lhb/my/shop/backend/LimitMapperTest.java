@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -94,6 +95,34 @@ public class LimitMapperTest {
         List<Map<String,TbUser>> tbUsers = tbUserMapper.selectAll(pageParams);
 
         System.out.println(tbUsers);
+    }
+
+    /**
+     * 测试用户名，邮箱，手机号码是否存在
+     */
+    @Test
+    public void checkIsNullTest() {
+        System.out.println("测试存在的，也就是说重复了");
+        System.out.println("用户名 = "+tbUserMapper.findUsername("admin"));
+        System.out.println("邮箱 = "+tbUserMapper.findEmail("123@qq.com"));
+        System.out.println("手机号码 = "+tbUserMapper.findPhone("13724725169"));
+        System.out.println("测试不存在的，也就是说不重复");
+        System.out.println("用户名 = "+tbUserMapper.findUsername("123"));
+        System.out.println("邮箱 = "+tbUserMapper.findEmail("admin"));
+        System.out.println("手机号码 = "+tbUserMapper.findPhone("admin"));
+    }
+
+    /**
+     * 测试创建本地时间
+     */
+    @Test
+    public void dateTest() {
+        System.out.println(new Date());
+        BaseResult baseResult = BaseResult.ok();
+        baseResult.setCode(20);
+        baseResult.setMessage("成功了");
+        System.out.println(baseResult.getCode());
+        System.out.println(baseResult.getMessage());
     }
 
 }
