@@ -29,9 +29,9 @@ public class JwtHeadFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(JwtHeadFilter.class);
 
 
-    public JwtHeadFilter() {
-
-    }
+//    public JwtHeadFilter() {
+//
+//    }
 
 
     @Override

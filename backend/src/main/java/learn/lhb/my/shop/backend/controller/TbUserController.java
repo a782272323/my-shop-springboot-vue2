@@ -115,12 +115,12 @@ public class TbUserController {
 
     /**
      * 修改用户
-     * @param autowired
+     * @param authentication
      * @param tbUser
      * @return
      */
     @PutMapping("list")
-    public BaseResult update(Autowired autowired,String user_id,@RequestBody TbUser tbUser) {
+    public BaseResult update(Authentication authentication,String user_id,@RequestBody TbUser tbUser) {
         System.out.println("修改用户");
         return tbUserService.update(tbUser,user_id);
     }
