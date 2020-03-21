@@ -26,7 +26,15 @@
                 </el-button>
               </el-form-item>
               <el-form-item class="filter-item">
-                <el-button class="filter-item" type="danger" icon="el-icon-delete" plain>
+                <!-- 批量删除按钮,disabled设置是否可用 -->
+                <el-button
+                  class="filter-item"
+                  type="danger"
+                  icon="el-icon-delete"
+                  plain
+                  :disabled="this.multipleSelection.length === 0"
+                  @click="delMultiAccount(multipleSelection)"
+                >
                   批量删除
                 </el-button>
               </el-form-item>
@@ -78,9 +86,26 @@
                 :before-close="handleClose"
               >
                 <el-form
+                  ref="updateAccountParams"
+                  :model="updateAccountParams"
+                  :rules="rules"
                   label-width="100px"
                   class="demo-ruleForm"
-                />
+                >
+                  <el-form-item label="用户名" prop="username">
+                    <el-input v-model.trim="updateAccountParams.username" />
+                  </el-form-item>
+                  <el-form-item label="手机号码" prop="phone">
+                    <el-input v-model.trim="updateAccountParams.phone" />
+                  </el-form-item>
+                  <el-form-item label="邮箱" prop="email">
+                    <el-input v-model.trim="updateAccountParams.email" />
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button type="primary" @click="updateAccount('updateAccountParams')">修 改</el-button>
+                    <el-button @click="cancelUpdateAccount('updateAccountParams')">取 消</el-button>
+                  </el-form-item>
+                </el-form>
               </el-dialog>
             </div>
           </div>
@@ -97,6 +122,7 @@
         stripe
         highlight-current-row
         @sort-change="sortChange"
+        @selection-change="handleSelectionChange"
       >
         <!-- 多选框实现批量删除 -->
         <el-table-column type="selection" width="50" align="center" />
@@ -157,9 +183,9 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
-          <template slot-scope="">
-            <el-button type="text" @click="Check">修改</el-button>
-            <el-button type="text" style="color:#CD2626">删除</el-button>
+          <template slot-scope="scope">
+            <el-button type="text" @click="Check(scope.$index,scope.row)">修改</el-button>
+            <el-button type="text" style="color:#CD2626" @click="Delete(scope.$index,scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -189,7 +215,7 @@
 </template>
 
 <script>
-    import { accountList, sortAccountList, postAccount } from '../../api/account'
+    import { accountList, sortAccountList, postAccount, putAccount, deleteAccount, deleteMultiAccount } from '../../api/account'
 
     export default {
         name: 'AccountList',
@@ -221,6 +247,14 @@
                     email: '', // 邮箱
                     phone: '' // 手机号码
                 },
+                // 修改用户
+                updateAccountParams: {
+                  username: '',
+                  phone: '',
+                  email: ''
+                },
+                // user_id
+                userId: '',
                 // 输入框校验规则
                 rules: {
                     username: [
@@ -245,7 +279,9 @@
                     username: '',
                     email: '',
                     phone: ''
-                }
+                },
+                // 批量删除选择的数据(字符串数组)
+              multipleSelection: []
             }
         },
         // 刷新界面
@@ -326,8 +362,52 @@
                 this.dialogAddAccount = false
                 this.$refs[params].resetFields()
             },
+            // 确认修改按钮
+          updateAccount(params) {
+            this.$refs[params].validate((valid) => {
+              if (valid) {
+                console.log('修改商品')
+                putAccount(this.updateAccountParams, this.userId).then(res => {
+                  if (res.code === 20000) {
+                    this.$notify({
+                      title: '成功',
+                      type: 'success',
+                      message: '修改成功',
+                      duration: 2000
+                    })
+                    // 清空信息
+                    this.cancelAddAccount(params)
+                    // 刷新页面
+                    this.refreshPage()
+                    // 关闭对话框
+                    this.closeDialogAddAccount()
+                  } else {
+                    this.$notify({
+                      title: '失败',
+                      message: '系统异常',
+                      type: 'error',
+                      duration: 2000
+                    })
+                  }
+                })
+              } else {
+                return false
+              }
+            })
+          },
+            // 取消修改按钮
+            cancelUpdateAccount(params) {
+              console.log('取消修改用户')
+              this.dialogEditAccount = false
+              this.$refs[params].resetFields()
+            },
             // 查看信息
             Check(index, row) {
+                this.userId = row.user_id
+                this.updateAccountParams.username = row.username
+                this.updateAccountParams.email = row.email
+                this.updateAccountParams.phone = row.phone
+                console.log(this.userId)
                 this.dialogEditAccount = true
             },
             // 点击改变显示条数
@@ -350,11 +430,92 @@
                 })
                     .catch(_ => {})
             },
+            // 删除单行数据
+          Delete(index, row) {
+              console.log('删除用户' + row.user_id)
+            this.$confirm('此操作将删除商品且不可恢复 ,是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              deleteAccount(row.user_id).then(res => {
+                console.log('要删除的id' + ' = ' + row.user_id)
+                if (res.code === 20000) {
+                  this.$notify({
+                    title: '成功',
+                    type: 'success',
+                    message: '删除成功',
+                    duration: 2000
+                  })
+                  // 刷新页面
+                  this.refreshPage()
+                } else {
+                  this.$notify({
+                    ttile: '失败',
+                    message: '该数据不可删除或者系统异常',
+                    type: 'error',
+                    duration: 2000
+                  })
+                }
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除'
+              })
+            })
+          },
             // 关闭对话框
             closeDialogAddAccount() {
                 this.dialogAddAccount = false
                 this.dialogEditAccount = false
-            }
+            },
+            // 批量删除
+          delMultiAccount() {
+            // 获取所有选中行的id组成的字符串，使用逗号分隔
+            var ids = this.multipleSelection.map(item => item.user_id).join()
+            console.log(ids)
+            this.$confirm('此操作将永久删除，是否继续', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消'
+            }).then(() => {
+              deleteMultiAccount(ids).then(res => {
+                if (res.code === 20000) {
+                  this.$notify({
+                    title: '提示',
+                    message: '批量删除成功',
+                    type: 'success',
+                    duration: 2000
+                  })
+                  // 刷新页面
+                  this.refreshPage()
+                } else if (res.code === 50000) {
+                  this.$notify({
+                    title: '失败',
+                    type: 'error',
+                    message: '删除失败!',
+                    duration: 2000
+                  })
+                } else {
+                  this.$notify({
+                    title: '提示',
+                    message: '删除失败，有数据不能删除',
+                    type: 'error',
+                    duration: 2000
+                  })
+                }
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消批量删除'
+              })
+            })
+          },
+          // 选中时触发，选中得到的数据
+          handleSelectionChange(val) {
+              this.multipleSelection = val
+          }
         }
     }
 </script>

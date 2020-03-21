@@ -27,4 +27,18 @@ public interface TbUserService {
      * @return
      */
     BaseResult update(TbUser tbUser,String user_id);
+
+    /**
+     * 删除用户
+     * @param user_id
+     * @return
+     */
+    int delete(String user_id);
+
+    /**
+     * 批量删除
+     * @param userIds
+     * @return
+     */
+    void deleteMulti(String[] userIds);
 }

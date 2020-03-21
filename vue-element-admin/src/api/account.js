@@ -28,3 +28,29 @@ export function postAccount(data) {
   })
 }
 
+// 修改用户
+export function putAccount(data, user_id) {
+  return request({
+    url: '/account/list/' + user_id,
+    method: 'put',
+    data
+  })
+}
+
+// 单个删除
+export function deleteAccount(user_id) {
+  return request({
+    url: '/account/list/' + user_id,
+    method: 'delete'
+  })
+}
+
+// 批量删除
+export function deleteMultiAccount(user_ids) {
+  return request({
+    url: '/account/list',
+    method: 'delete',
+    params: { userIds: user_ids }
+  })
+}
+

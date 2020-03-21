@@ -117,4 +117,31 @@
     <delete id="delete">
         DELETE FROM myshop.tb_user WHERE tb_user.user_id = ${user_id}
     </delete>
+
+    <!--  修改时，校验用户名除了修改之前的用户名码外，其余是否重复 -->
+    <select id="findUsernameNotId" resultType="TbUser">
+        SELECT username FROM tb_user
+        WHERE username = #{username} AND user_id &lt;&gt; ${userId}
+    </select>
+
+    <!--  修改时，校验用户名除了修改之前的手机号码外，其余是否重复 -->
+    <select id="findPhoneNotId" resultType="TbUser">
+        SELECT phone FROM tb_user
+        WHERE phone = #{phone} AND user_id &lt;&gt; ${userId}
+    </select>
+
+    <!--  修改时，校验用户名除了修改之前的邮箱码外，其余是否重复 -->
+    <select id="findEmailNotId" resultType="TbUser">
+        SELECT email FROM tb_user
+        WHERE email = #{email} AND user_id &lt;&gt; ${userId}
+    </select>
+
+    <!-- 批量删除 -->
+    <select id="deleteMulti">
+        DELETE FROM tb_user
+        WHERE user_id IN
+        <foreach collection="userIds" open="(" close=")" separator="," item="user_id">
+            #{user_id}
+        </foreach>
+    </select>
 </mapper>

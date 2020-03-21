@@ -6,11 +6,13 @@ import learn.lhb.my.shop.backend.service.TbUserService;
 import learn.lhb.my.shop.commons.dto.BaseResult;
 import learn.lhb.my.shop.commons.dto.PageParams;
 import learn.lhb.my.shop.domain.rbac.TbUser;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -119,10 +121,47 @@ public class TbUserController {
      * @param tbUser
      * @return
      */
-    @PutMapping("list")
-    public BaseResult update(Authentication authentication,String user_id,@RequestBody TbUser tbUser) {
+    @PutMapping("list/{user_id}")
+    public BaseResult update(Authentication authentication,@PathVariable String user_id,@RequestBody TbUser tbUser) {
         System.out.println("修改用户");
         return tbUserService.update(tbUser,user_id);
     }
+
+    /**
+     * 删除用户
+     * @param authentication
+     * @param user_id
+     * @return
+     */
+    @DeleteMapping("list/{user_id}")
+    public BaseResult delete(Authentication authentication,@PathVariable String user_id) {
+        System.out.println("删除用户");
+        int i = tbUserMapper.delete(user_id);
+        if (i > 0) {
+            return BaseResult.ok();
+        }else{
+            return BaseResult.error();
+        }
+    }
+
+    /**
+     * 批量删除
+     * @param authentication
+     * @param userIds
+     * @return
+     */
+    @DeleteMapping("list")
+    public BaseResult deletes(Authentication authentication, String userIds) {
+        System.out.println("批量删除");
+        if (StringUtils.isNoneBlank(userIds)) {
+            String[] idArray = userIds.split(",");
+            tbUserService.deleteMulti(idArray);
+            return BaseResult.ok();
+        } else {
+            return BaseResult.error();
+        }
+
+    }
+
 
 }

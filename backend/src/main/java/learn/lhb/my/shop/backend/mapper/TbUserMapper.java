@@ -1,10 +1,12 @@
 package learn.lhb.my.shop.backend.mapper;
 
+import learn.lhb.my.shop.commons.dto.BaseResult;
 import learn.lhb.my.shop.commons.dto.PageParams;
 import learn.lhb.my.shop.domain.rbac.TbUser;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.Map;
@@ -97,5 +99,35 @@ public interface TbUserMapper {
      */
     TbUser findPhone(String phone);
 
+    /**
+     * 修改时，校验用户名除了修改之前的用户名外，其余是否重复
+     *
+     * @param username
+     * @param userId
+     * @return
+     */
+    TbUser findUsernameNotId(String username,String userId);
 
+    /**
+     * 修改时，校验用户名除了修改之前的手机号码外，其余是否重复
+     * @param phone
+     * @param userId
+     * @return
+     */
+    TbUser findPhoneNotId(String phone,String userId);
+
+    /**
+     * 修改时，校验用户名除了修改之前的邮箱外，其余是否重复
+     * @param email
+     * @param userId
+     * @return
+     */
+    TbUser findEmailNotId(String email,String userId);
+
+    /**
+     * 批量删除
+     * @param userIds
+     * @return
+     */
+    void deleteMulti(@Param("userIds")String[] userIds);
 }

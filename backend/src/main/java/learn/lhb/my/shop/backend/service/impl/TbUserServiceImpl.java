@@ -75,12 +75,47 @@ public class TbUserServiceImpl implements TbUserService {
         BaseResult baseResult = check2(tbUser);
         // 用户信息有效性验证
         if (baseResult.getCode() == BaseResult.CodeStatus.OK) {
-            // 初始化更新时间
-            tbUser.setUpdated(new Date());
-            tbUserMapper.update(tbUser,user_id);
-            baseResult = BaseResult.ok("修改用户成功");
+            // 判断用户名是否重复（除了要跟新的这条数据的用户名外)
+            if (tbUserMapper.findUsernameNotId(tbUser.getUsername(), user_id) != null) {
+                baseResult = BaseResult.error("用户名重复");
+            }
+            // 判断手机号是否重复（除了要跟新的这条数据的用户名外)
+            else if (tbUserMapper.findPhoneNotId(tbUser.getPhone(), user_id) != null) {
+                baseResult = BaseResult.error("手机号码重复");
+            }
+            // 判断邮箱是否重复（除了要跟新的这条数据的用户名外)
+            else if (tbUserMapper.findEmailNotId(tbUser.getEmail(), user_id) != null) {
+                baseResult = BaseResult.error("邮箱重复");
+            }
+            // 修改用户
+            else {
+                // 初始化更新时间
+                tbUser.setUpdated(new Date());
+                tbUserMapper.update(tbUser, user_id);
+                baseResult = BaseResult.ok("修改用户成功");
+            }
         }
         return baseResult;
+    }
+
+    /**
+     * 删除用户
+     * @param user_id
+     * @return
+     */
+    @Override
+    public int delete(String user_id) {
+        return tbUserMapper.delete(user_id);
+    }
+
+    /**
+     * 批量删除
+     * @param userIds
+     * @return
+     */
+    @Override
+    public void deleteMulti(String[] userIds) {
+        tbUserMapper.deleteMulti(userIds);
     }
 
     /**
