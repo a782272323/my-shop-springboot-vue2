@@ -1,5 +1,6 @@
 package learn.lhb.my.shop.backend.service.impl;
 
+import learn.lhb.my.shop.backend.abstracts.AbstractBaseServiceImpl;
 import learn.lhb.my.shop.backend.mapper.TbUserMapper;
 import learn.lhb.my.shop.backend.service.TbUserService;
 import learn.lhb.my.shop.commons.dto.BaseResult;
@@ -19,7 +20,7 @@ import java.util.Date;
  * @time 11:08
  */
 @Service
-public class TbUserServiceImpl implements TbUserService {
+public class TbUserServiceImpl extends AbstractBaseServiceImpl<TbUser, TbUserMapper> implements TbUserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -96,26 +97,6 @@ public class TbUserServiceImpl implements TbUserService {
             }
         }
         return baseResult;
-    }
-
-    /**
-     * 删除用户
-     * @param user_id
-     * @return
-     */
-    @Override
-    public int delete(String user_id) {
-        return tbUserMapper.delete(user_id);
-    }
-
-    /**
-     * 批量删除
-     * @param userIds
-     * @return
-     */
-    @Override
-    public void deleteMulti(String[] userIds) {
-        tbUserMapper.deleteMulti(userIds);
     }
 
     /**

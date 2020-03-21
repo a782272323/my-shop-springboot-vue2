@@ -114,7 +114,7 @@
 
       <!-- 表格 -->
       <el-table
-        :data="getAccountList"
+        :data="getList"
         :default-sort="{prop: 'user_id', order: 'ascending'}"
         style="margin-top: 0px;width: 100%"
         border
@@ -226,7 +226,7 @@
                 // 打开修改用户信息弹窗
                 dialogEditAccount: false,
                 // 获取全部用户信息
-                getAccountList: [],
+                getList: [],
                 // 用户信息字段
                 accountParams: {
                     userId: ''
@@ -292,7 +292,7 @@
             // 刷新界面
             refreshPage() {
                 accountList(this.defaultPage.pageIndex, this.defaultPage.pageSize, this.defaultPage.sortType, this.defaultPage.sortName).then(res => {
-                    this.getAccountList = res.data.getAccountList
+                    this.getList = res.data.getList
                     this.defaultPage.total = res.data.total
                 })
             },
@@ -300,7 +300,7 @@
             sortAccount() {
                 sortAccountList(this.defaultPage.pageIndex, this.defaultPage.pageSize, this.defaultPage.sortType, this.defaultPage.sortName, this.sortParams).then(res => {
                     this.defaultPage.total = res.data.total
-                    this.getAccountList = res.data.getAccountList
+                    this.getList = res.data.getList
                 })
             },
             // 排序

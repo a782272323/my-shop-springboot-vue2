@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 实体类的基类
+ * 实体类的基类(通用的属性提取出来)
  * 创建时间和更新时间
  *
  * @author 梁鸿斌
@@ -20,12 +20,10 @@ public class BaseDateEntity implements Serializable {
     /**
      * 创建时间
      */
-//    @JsonFormat(pattern = "yyyy-MM-ss HH:mm:ss")
     private Date created;
     /**
      * 更新时间
      */
-//    @JsonFormat(pattern = "yyyy-MM-ss HH:mm:ss")
     private Date updated;
 
     public Date getCreated() {

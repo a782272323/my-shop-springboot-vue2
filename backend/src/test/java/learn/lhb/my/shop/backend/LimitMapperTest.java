@@ -93,7 +93,7 @@ public class LimitMapperTest {
         pageParams.setSortType("DESC");
         PageHelper.startPage(1, 2);
         List<Map<String,TbUser>> tbUsers = tbUserMapper.selectAll(pageParams);
-
+//        List<TbUser> tbUsers = tbUserMapper.selectAll(pageParams);
         System.out.println(tbUsers);
     }
 

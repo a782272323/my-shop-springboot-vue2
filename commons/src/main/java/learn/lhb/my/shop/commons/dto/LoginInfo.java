@@ -11,8 +11,17 @@ import java.io.Serializable;
  */
 public class LoginInfo implements Serializable {
 
+    /**
+     * 姓名
+     */
     private String name;
+    /**
+     * 头像
+     */
     private String avatar;
+    /**
+     * 角色
+     */
     private String roles;
 
     public String getRoles() {

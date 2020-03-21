@@ -60,4 +60,14 @@ public class PageParams implements Serializable {
     public void setSortType(String sortType) {
         this.sortType = sortType;
     }
+
+    @Override
+    public String toString() {
+        return "PageParams{" +
+                "pageIndex=" + pageIndex +
+                ", pageSize=" + pageSize +
+                ", sortName='" + sortName + '\'' +
+                ", sortType='" + sortType + '\'' +
+                '}';
+    }
 }

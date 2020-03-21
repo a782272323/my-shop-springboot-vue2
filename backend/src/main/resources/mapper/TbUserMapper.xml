@@ -30,10 +30,6 @@
         ORDER BY ${sortName} ${sortType}
     </select>
 
-    <!-- 查询全部用户信息的返回结果数量 -->
-    <select id="getTotalAll" resultType="Integer">
-        SELECT COUNT(*) FROM myshop.tb_user
-    </select>
 
     <!-- 根据条件查询全部用户信息 -->
     <select id="queryAll" resultType="java.util.HashMap">
@@ -42,34 +38,35 @@
         FROM
             myshop.tb_user
         <where>
-            <if test="tbUser.username != null and tbUser.username != ''">
-                AND username LIKE CONCAT ('%',#{tbUser.username},'%')
+            <if test="entity.username != null and entity.username != ''">
+                AND username LIKE CONCAT ('%',#{entity.username},'%')
             </if>
-            <if test="tbUser.email != null and tbUser.email != ''">
-                AND email LIKE CONCAT ('%',#{tbUser.email},'%')
+            <if test="entity.email != null and entity.email != ''">
+                AND email LIKE CONCAT ('%',#{entity.email},'%')
             </if>
-            <if test="tbUser.phone != null and tbUser.phone != ''">
-                AND phone LIKE CONCAT ('%',#{tbUser.phone},'%')
+            <if test="entity.phone != null and entity.phone != ''">
+                AND phone LIKE CONCAT ('%',#{entity.phone},'%')
             </if>
         </where>
         ORDER BY ${pageParams.sortName} ${pageParams.sortType}
     </select>
 
-    <!-- 根据条件查询全部用户信息的返回结果数量 -->
-    <select id="queryTotalAll" resultType="Integer">
+    <!-- 查询结果的总笔数 -->
+    <select id="count" resultType="Integer">
         SELECT COUNT(*) FROM myshop.tb_user
         <where>
-            <if test="tbUser.username != null and tbUser.username != ''">
-                AND username LIKE CONCAT ('%',#{tbUser.username},'%')
+            <if test="username != null and username != ''">
+                AND username LIKE CONCAT ('%',#{username},'%')
             </if>
-            <if test="tbUser.email != null and tbUser.email != ''">
-                AND email LIKE CONCAT ('%',#{tbUser.email},'%')
+            <if test="email != null and email != ''">
+                AND email LIKE CONCAT ('%',#{email},'%')
             </if>
-            <if test="tbUser.phone != null and tbUser.phone != ''">
-                AND phone LIKE CONCAT ('%',#{tbUser.phone},'%')
+            <if test="phone != null and phone != ''">
+                AND phone LIKE CONCAT ('%',#{phone},'%')
             </if>
         </where>
     </select>
+
 
     <!-- 根据ID查询单个用户信息 -->
     <select id="selectOne" resultType="TbUser" resultMap="tbUserMap">
@@ -100,22 +97,22 @@
         INSERT INTO myshop.tb_user
             (username, password, phone, email, created, updated)
         VALUES
-            (#{tbUser.username},#{tbUser.password},#{tbUser.phone},#{tbUser.email},#{tbUser.created},#{tbUser.updated})
+            (#{entity.username},#{entity.password},#{entity.phone},#{entity.email},#{entity.created},#{entity.updated})
     </insert>
 
     <!-- 修改用户 -->
     <update id="update">
         UPDATE myshop.tb_user SET
-            username = #{tbUser.username},
-            email = #{tbUser.email},
-            phone = #{tbUser.phone},
-            updated = #{tbUser.updated}
-        WHERE myshop.tb_user.user_id = ${user_id}
+            username = #{entity.username},
+            email = #{entity.email},
+            phone = #{entity.phone},
+            updated = #{entity.updated}
+        WHERE myshop.tb_user.user_id = ${id}
     </update>
 
     <!-- 删除用户 -->
     <delete id="delete">
-        DELETE FROM myshop.tb_user WHERE tb_user.user_id = ${user_id}
+        DELETE FROM myshop.tb_user WHERE tb_user.user_id = ${id}
     </delete>
 
     <!--  修改时，校验用户名除了修改之前的用户名码外，其余是否重复 -->
@@ -140,8 +137,8 @@
     <select id="deleteMulti">
         DELETE FROM tb_user
         WHERE user_id IN
-        <foreach collection="userIds" open="(" close=")" separator="," item="user_id">
-            #{user_id}
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
         </foreach>
     </select>
 </mapper>

@@ -1,6 +1,7 @@
 package learn.lhb.my.shop.backend.service;
 
 import learn.lhb.my.shop.commons.dto.BaseResult;
+import learn.lhb.my.shop.commons.persistence.BaseService;
 import learn.lhb.my.shop.domain.rbac.TbUser;
 
 /**
@@ -10,7 +11,7 @@ import learn.lhb.my.shop.domain.rbac.TbUser;
  * @date 2020/3/15.
  * @time 11:08
  */
-public interface TbUserService {
+public interface TbUserService extends BaseService<TbUser> {
 
     /**
      * 添加用户
@@ -27,18 +28,4 @@ public interface TbUserService {
      * @return
      */
     BaseResult update(TbUser tbUser,String user_id);
-
-    /**
-     * 删除用户
-     * @param user_id
-     * @return
-     */
-    int delete(String user_id);
-
-    /**
-     * 批量删除
-     * @param userIds
-     * @return
-     */
-    void deleteMulti(String[] userIds);
 }

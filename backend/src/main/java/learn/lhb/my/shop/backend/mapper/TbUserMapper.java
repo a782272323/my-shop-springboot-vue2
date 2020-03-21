@@ -2,6 +2,7 @@ package learn.lhb.my.shop.backend.mapper;
 
 import learn.lhb.my.shop.commons.dto.BaseResult;
 import learn.lhb.my.shop.commons.dto.PageParams;
+import learn.lhb.my.shop.commons.persistence.BaseMapper;
 import learn.lhb.my.shop.domain.rbac.TbUser;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
@@ -18,65 +19,7 @@ import java.util.Map;
  */
 @Repository
 @MapperScan
-public interface TbUserMapper {
-
-    /**
-     * 查询全部用户信息
-     * @param pageParams
-     * @return
-     */
-    List<Map<String,TbUser>> selectAll(PageParams pageParams);
-
-    /**
-     * 查询全部用户信息的返回结果数量
-     * @return
-     */
-    int getTotalAll();
-
-    /**
-     * 根据条件查询全部用户信息
-     * @param pageParams
-     * @param tbUser
-     * @return
-     */
-    List<Map<String, TbUser>> queryAll(@Param("pageParams")PageParams pageParams,@Param("tbUser") TbUser tbUser);
-
-    /**
-     * 根据条件查询全部用户信息的返回结果数量
-     * @param tbUser
-     * @return
-     */
-    Integer queryTotalAll(@Param("tbUser") TbUser tbUser);
-
-    /**
-     * 根据ID查询单个用户信息
-     *
-     * @param userId
-     * @return
-     */
-    TbUser selectOne(String userId);
-
-    /**
-     * 添加用户
-     * @param tbUser
-     * @return
-     */
-    int insert(@Param("tbUser")TbUser tbUser);
-
-    /**
-     * 修改用户
-     * @param tbUser
-     * @param user_id
-     * @return
-     */
-    int update(@Param("tbUser") TbUser tbUser,String user_id);
-
-    /**
-     * 删除用户
-     * @param user_id
-     * @return
-     */
-    int delete(String user_id);
+public interface TbUserMapper extends BaseMapper<TbUser> {
 
     /**
      * 校验用户名是否重复
@@ -124,10 +67,4 @@ public interface TbUserMapper {
      */
     TbUser findEmailNotId(String email,String userId);
 
-    /**
-     * 批量删除
-     * @param userIds
-     * @return
-     */
-    void deleteMulti(@Param("userIds")String[] userIds);
 }

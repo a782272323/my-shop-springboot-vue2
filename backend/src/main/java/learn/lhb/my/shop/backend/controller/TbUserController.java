@@ -1,6 +1,7 @@
 package learn.lhb.my.shop.backend.controller;
 
 import com.github.pagehelper.PageHelper;
+import learn.lhb.my.shop.backend.abstracts.AbstractBaseController;
 import learn.lhb.my.shop.backend.mapper.TbUserMapper;
 import learn.lhb.my.shop.backend.service.TbUserService;
 import learn.lhb.my.shop.commons.dto.BaseResult;
@@ -36,7 +37,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("v1/account")
 @CrossOrigin
-public class TbUserController {
+public class TbUserController extends AbstractBaseController<TbUser, TbUserService> {
 
     private static final Logger logger = LoggerFactory.getLogger(TbUserController.class);
 
@@ -45,63 +46,6 @@ public class TbUserController {
 
     @Resource
     private TbUserService tbUserService;
-
-    /**
-     * 显示用户全部信息详情
-     * 管理员只能看的自己的信息，和普通用户的信息
-     *
-     * @return
-     */
-    @GetMapping("list")
-    public BaseResult selectAll(Authentication authentication,PageParams pageParams) {
-        System.out.println("查询用户信息");
-        System.out.println("pageIndex = "+pageParams.getPageIndex());
-        System.out.println("pageSize = "+pageParams.getPageSize());
-        System.out.println("sortName = "+pageParams.getSortName());
-        System.out.println("sortType = "+pageParams.getSortType());
-        PageHelper.startPage(pageParams.getPageIndex(), pageParams.getPageSize());
-        Map<String,Object> map = new HashMap<>();
-        map.put("getAccountList", tbUserMapper.selectAll(pageParams));
-        map.put("total", tbUserMapper.getTotalAll());
-        return BaseResult.ok().put(20000, "请求成功", "data", map);
-    }
-
-    /**
-     * 查询用户信息
-     * @param authentication
-     * @param pageParams
-     * @param tbUser
-     * @return
-     */
-    @GetMapping("lists")
-    public BaseResult queryAll(Authentication authentication, PageParams pageParams, TbUser tbUser) {
-        System.out.println("模糊查询");
-        System.out.println("pageIndex = "+pageParams.getPageIndex());
-        System.out.println("pageSize = "+pageParams.getPageSize());
-        System.out.println("sortName = "+pageParams.getSortName());
-        System.out.println("sortType = "+pageParams.getSortType());
-        PageHelper.startPage(pageParams.getPageIndex(), pageParams.getPageSize());
-        Map<String, Object> map = new HashMap<>();
-        map.put("getAccountList", tbUserMapper.queryAll(pageParams, tbUser));
-        map.put("total", tbUserMapper.queryTotalAll(tbUser));
-        return BaseResult.ok().put(BaseResult.CodeStatus.OK,"请求成功","data",map);
-    }
-
-    /**
-     * 根据ID查询单个用户信息
-     *
-     * @param authentication
-     * @param user_id
-     * @return
-     */
-    @GetMapping("list/{user_id}")
-    public BaseResult selectOne(Authentication authentication, @PathVariable(value = "user_id") String user_id) {
-        System.out.println("根据ID查询单个用户信息");
-        System.out.println("user_id = "+user_id);
-        Map<String, Object> map = new HashMap<>();
-        map.put("getAccountList", tbUserMapper.selectOne(user_id));
-        return BaseResult.ok().put(20000, "请求成功", "data", map);
-    }
 
     /**
      * 添加用户
@@ -126,42 +70,4 @@ public class TbUserController {
         System.out.println("修改用户");
         return tbUserService.update(tbUser,user_id);
     }
-
-    /**
-     * 删除用户
-     * @param authentication
-     * @param user_id
-     * @return
-     */
-    @DeleteMapping("list/{user_id}")
-    public BaseResult delete(Authentication authentication,@PathVariable String user_id) {
-        System.out.println("删除用户");
-        int i = tbUserMapper.delete(user_id);
-        if (i > 0) {
-            return BaseResult.ok();
-        }else{
-            return BaseResult.error();
-        }
-    }
-
-    /**
-     * 批量删除
-     * @param authentication
-     * @param userIds
-     * @return
-     */
-    @DeleteMapping("list")
-    public BaseResult deletes(Authentication authentication, String userIds) {
-        System.out.println("批量删除");
-        if (StringUtils.isNoneBlank(userIds)) {
-            String[] idArray = userIds.split(",");
-            tbUserService.deleteMulti(idArray);
-            return BaseResult.ok();
-        } else {
-            return BaseResult.error();
-        }
-
-    }
-
-
 }
